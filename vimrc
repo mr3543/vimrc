@@ -43,6 +43,9 @@ set noerrorbells
 " after leaving insert mode 
 inoremap jj <Esc>l
 
+" map ctrl s to :w 
+inoremap <C-s> <Esc>:w<CR>
+
 "easy switching between files
 nnoremap ! <c-^>
 
@@ -78,6 +81,9 @@ call plug#begin('~/.vim/plugged')
 "color scheme
 Plug 'morhetz/gruvbox'
 
+"python linting
+Plug 'nvie/vim-flake8'
+
 "fast grep
 Plug 'jremmen/vim-ripgrep'
 
@@ -106,6 +112,8 @@ set background=dark
 
 if executable('rg')
     let g:rg_derive_root='true'
+    set grepprg=rg\ --color=never
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 endif
 
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
@@ -114,8 +122,7 @@ let g:netrw_browse_split = 2
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
-"let g:ctrlp_use_caching = 0
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrl_p'
+let g:ctrlp_use_caching = 0
 
 "navigation around windows
 nnoremap <leader>h :wincmd h<CR>
@@ -124,12 +131,16 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>q :wincmd q<CR>
 
+"navigation around buffers
+nnoremap <leader>n :bn<CR>
+nnoremap <leader>p :bp<CR>
+
 "opens undo tree
 nnoremap <leader>u :UndotreeShow<CR>
 "opens file tree
-nnoremap <leader>ft <C-w>v :Ex <bar> :vertical resize 30<CR>
+nnoremap <leader>ft <C-w>v:Ex<bar>:vertical resize 30<CR>
 "rip-grep
-nnoremap <leader>ps :Rg<SPACE>
+nnoremap <leader>rg :Rg<SPACE>
 "changes size of windows 
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
